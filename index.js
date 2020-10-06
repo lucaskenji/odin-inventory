@@ -1,8 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
+const path = require('path');
 const categoriesRouter = require('./routes/category.js');
 const itemsRouter = require('./routes/item.js');
 
@@ -11,6 +13,9 @@ const USER = process.env.MONGOUSER;
 const PASSWORD = process.env.MONGOPASSWORD;
 
 // Config
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster.1qhnm.gcp.mongodb.net/inventory?retryWrites=true&w=majority`, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
@@ -19,9 +24,12 @@ mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@cluster.1qhnm.gcp.mongodb.ne
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
+mongoose.set('useCreateIndex', true);
+
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Middlewares & routes
 app.use('/category', categoriesRouter);

@@ -10,7 +10,10 @@ const itemSchema = new Schema({
 	},
 	price: Number,
 	stock: Number,
-	url: String
+	url: {
+		type: String,
+		unique: true
+	}
 });
 
 const Item = mongoose.model('items', itemSchema);
