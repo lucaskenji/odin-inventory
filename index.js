@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 8080;
 const USER = process.env.MONGOUSER;
 const PASSWORD = process.env.MONGOPASSWORD;
 
+
 // Config
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,7 +30,18 @@ mongoose.set('useCreateIndex', true);
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
+const Handlebars = exphbs.create({});
+
+Handlebars.handlebars.registerHelper('ifCond', function(v1, v2, options) {
+	// used for id comparison
+	if (v1.equals(v2)) {
+		return options.fn(this);
+	}
+	return options.inverse(this);
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Middlewares & routes
 app.use('/category', categoriesRouter);

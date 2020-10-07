@@ -15,5 +15,6 @@
     "express-handlebars": "^5.1.0",
     "express-validator": "^6.6.1",
     "mongoose": "^5.10.8"
-  }
+  },
+  "devDependencies": {}
 }

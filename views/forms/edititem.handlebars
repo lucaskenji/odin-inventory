@@ -1,0 +1,40 @@
+{{#each errors}}
+	<div class="error-msg">
+		{{this}}
+	</div>
+{{/each}}
+
+<h1>Edit item</h1>
+<form method="POST">
+	<label for="name">Name</label>
+	<input type="text" name="name" value="{{item.name}}">
+	<br>
+	
+	<label for="description">Description</label>
+	<input type="text" name="description" value="{{item.description}}">
+	<br>
+	
+	<label for="category">Category</label>
+	<select name="category">
+		{{#each categories}}
+			<option value={{this._id}} {{#ifCond this._id ../item.category._id}}selected{{/ifCond}}>
+				{{this.name}}
+			</option>
+		{{/each}}
+	</select>
+	<br>
+	
+	<label for="price">Price</label>
+	<input type="text" name="price" value="{{item.price}}">
+	<br>
+	
+	<label for="stock">Stock</label>
+	<input type="number" min=0 name="stock" value="{{item.stock}}">
+	<br>
+	
+	<label for="url">URL</label>
+	<input type="text" name="url" value="{{item.url}}">
+	<br>
+	
+	<input type="submit" value="Add">
+</form>
