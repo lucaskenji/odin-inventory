@@ -46,7 +46,8 @@ const categoryValidation = [
 	body('description').trim().escape(),
 	body('url').not().isEmpty().withMessage('You must provide an URL for the category.').trim().escape(),
 	body('url').not().equals('new').withMessage('The URL provided is already being used.'),
-	body('url').not().equals('edit').withMessage('The URL provided is already being used.')
+	body('url').not().equals('edit').withMessage('The URL provided is already being used.'),
+	body('url').not().equals('delete').withMessage('The URL provided is already being used.')
 ];
 
 const addNewCategory = (req, res) => {
@@ -129,6 +130,35 @@ const editCategory = (req, res) => {
 	});
 }
 
+const getDeletePrompt = (req, res) => {
+	Category.findOne({url: req.params.url}).then((result) => {
+		if (result) {
+			return res.render('forms/deletecategory');
+		}
+		
+		return res.render('notfound');
+	});
+}
+
+const deleteCategory = (req, res) => {
+	Category.findOneAndDelete({url: req.params.url}).then((result, ok) => {
+		if (!result) {
+			return res.render('notfound');
+		}
+		
+		Item.deleteMany({category: result._id}).then((deleteResults) => {
+			if (!deleteResults.ok) {
+				throw new Error('');
+			}
+			
+			return res.redirect('/');
+		})
+	})
+	.catch(() => {
+		res.status(500).send('Internal server error');
+	});
+}
+
 module.exports = {
 	getAllCategories,
 	getCategory,
@@ -136,5 +166,7 @@ module.exports = {
 	categoryValidation,
 	addNewCategory,
 	getUpdateForm,
-	editCategory
+	editCategory,
+	getDeletePrompt,
+	deleteCategory
 }

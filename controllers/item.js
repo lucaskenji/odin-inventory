@@ -35,7 +35,8 @@ const itemValidation = [
 	body('stock').isNumeric().isInt({ min: 0 }).withMessage('You must provide a valid stock.'),
 	body('url').not().isEmpty().withMessage('You must provide an URL for the item.'),
 	body('url').not().equals('new'),
-	body('url').not().equals('edit').withMessage('The URL provided is already being used.').escape().trim()
+	body('url').not().equals('edit').withMessage('The URL provided is already being used.'),
+	body('url').not().equals('delete').withMessage('The URL provided is already being used.').escape().trim()
 ];
 
 const addNewItem = (req, res) => {
@@ -135,6 +136,29 @@ const editItem = (req, res) => {
 	});
 }
 
+const getDeletePrompt = (req, res) => {
+	Item.findOne({url: req.params.url}).then((result) => {
+		if (result) {
+			return res.render('forms/deleteitem');
+		}
+		
+		return res.render('notfound');
+	});
+}
+
+const deleteItem = (req, res) => {
+	Item.deleteOne({url: req.params.url}).then((result) => {
+		if (result.deletedCount !== 1) {
+			throw new Error('internal server error');
+		}
+		
+		return res.redirect('/');
+	})
+	.catch(() => {
+		res.status(500).send('Internal server error');
+	});
+}
+
 
 module.exports = {
 	getItem,
@@ -142,5 +166,7 @@ module.exports = {
 	itemValidation,
 	addNewItem,
 	getUpdateForm,
-	editItem
+	editItem,
+	getDeletePrompt,
+	deleteItem
 }
