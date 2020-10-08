@@ -13,7 +13,8 @@ const itemSchema = new Schema({
 	url: {
 		type: String,
 		unique: true
-	}
+	},
+	photo: String
 });
 
 const Item = mongoose.model('items', itemSchema);
