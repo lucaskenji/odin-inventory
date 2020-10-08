@@ -5,7 +5,7 @@
 {{/each}}
 
 <h1>Edit item</h1>
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
 	<label for="name">Name</label>
 	<input type="text" name="name" value="{{item.name}}">
 	<br>
@@ -34,6 +34,10 @@
 	
 	<label for="url">URL</label>
 	<input type="text" name="url" value="{{item.url}}">
+	<br>
+
+	<label for="photo">Item image(leave empty to remain unchanged)</label>
+	<input type="file" name="photo" value="/uploads/{{item.photo}}">
 	<br>
 	
 	<input type="submit" value="Add">
