@@ -30,7 +30,14 @@ On Windows:
 set MONGOUSER=username
 ```
 
-5. Run `npm start`.
+5. Optionally, also set a password to perform operations such as updating and deleting database
+
+On Windows: 
+```
+set ADMIN_PASSWORD=examplepassword
+```
+
+6. Run `npm start`.
 
 ## Acknowledgements
 * The Odin Project
