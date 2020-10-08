@@ -4,18 +4,18 @@
 	</div>
 {{/each}}
 
-<h1>Edit item</h1>
+<h1>Update item</h1>
 <form method="POST" enctype="multipart/form-data">
 	<label for="name">Name</label>
-	<input type="text" name="name" value="{{item.name}}">
+	<input type="text" name="name" value="{{item.name}}" required>
 	<br>
 	
 	<label for="description">Description</label>
-	<input type="text" name="description" value="{{item.description}}">
+	<input type="text" name="description" value="{{item.description}}" required>
 	<br>
 	
 	<label for="category">Category</label>
-	<select name="category">
+	<select name="category" required>
 		{{#each categories}}
 			<option value={{this._id}} {{#ifCond this._id ../item.category}}selected{{/ifCond}}>
 				{{this.name}}
@@ -25,15 +25,15 @@
 	<br>
 	
 	<label for="price">Price</label>
-	<input type="text" name="price" value="{{item.price}}">
+	<input type="text" name="price" value="{{item.price}}" required>
 	<br>
 	
 	<label for="stock">Stock</label>
-	<input type="number" min=0 name="stock" value="{{item.stock}}">
+	<input type="number" min=0 name="stock" value="{{item.stock}}" required>
 	<br>
 	
 	<label for="url">URL</label>
-	<input type="text" name="url" value="{{item.url}}">
+	<input type="text" name="url" value="{{item.url}}" required>
 	<br>
 
 	<label for="photo">Item image(leave empty to remain unchanged)</label>
@@ -41,7 +41,7 @@
 	<br>
 	
 	<label for="admin_pwd">Insert your password to continue:</label>
-	<input type="password" name="admin_pwd">
+	<input type="password" name="admin_pwd" required>
 	
 	<input type="submit" value="Add">
 </form>
