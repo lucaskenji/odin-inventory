@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const Category = require('../models/Category.js');
 const Item = require('../models/Item.js');
 const { body, validationResult } = require('express-validator');
-const fs = require('fs');
-const path = require('path');
 
 
 const getItem = (req, res) => {
@@ -14,9 +12,6 @@ const getItem = (req, res) => {
 			return res.render('item', { item: result });
 		}
 		return res.render('notfound');
-	})
-	.catch((err) => {
-		res.status(500).send('Internal server error');
 	});
 }
 
@@ -66,8 +61,7 @@ const addNewItem = (req, res) => {
 				category: req.body.category,
 				price: req.body.price,
 				stock: req.body.stock,
-				url: req.body.url,
-				photo: req.file ? req.file.filename : 'default.png'
+				url: req.body.url
 			});
 			
 			newItem.save((err) => {
@@ -79,7 +73,6 @@ const addNewItem = (req, res) => {
 			})
 		})
 		.catch((err) => {
-			console.log(err);
 			res.status(500).send("Internal server error");
 		})
 	});
@@ -103,7 +96,7 @@ const getUpdateForm = (req, res) => {
 	})
 }
 
-const editItem = (req, res) => {	
+const editItem = (req, res) => {
 	Item.findOne({ url: req.params.url }).lean()
 	.then((currentItem) => {
 		
@@ -122,20 +115,14 @@ const editItem = (req, res) => {
 					return res.render('forms/edititem', { errors: ['The URL provided is already being used.'], categories, item: currentItem });
 				}
 				
-				const updatedItem = {
+				Item.updateOne({ url: req.params.url }, {
 					name: req.body.name,
 					description: req.body.description,
 					category: req.body.category,
 					price: req.body.price,
 					stock: req.body.stock,
 					url: req.body.url
-				}
-				
-				if (req.file) {
-					updatedItem.photo = req.file.filename;
-				}
-				
-				Item.updateOne({ url: req.params.url }, updatedItem)
+				})
 				.then(() => {
 					return res.redirect('/');
 				});
@@ -144,6 +131,7 @@ const editItem = (req, res) => {
 		
 	})
 	.catch((err) => {
+		console.log(err);
 		res.status(500).send("Internal server error");
 	});
 }
@@ -159,24 +147,14 @@ const getDeletePrompt = (req, res) => {
 }
 
 const deleteItem = (req, res) => {
-	Item.findOneAndDelete({url: req.params.url}).then((result) => {
-		if (!result) {
-			return res.render('notfound');
+	Item.deleteOne({url: req.params.url}).then((result) => {
+		if (result.deletedCount !== 1) {
+			throw new Error('internal server error');
 		}
 		
-		if (result.photo !== 'default.png') {
-			fs.unlink(path.join('public/uploads/', result.photo), (err) => {
-				if (err) {
-					throw err;
-				}
-				return res.redirect('/');
-			});
-		} else {
-			return res.redirect('/');
-		}
+		return res.redirect('/');
 	})
-	.catch((err) => {
-		console.log(err);
+	.catch(() => {
 		res.status(500).send('Internal server error');
 	});
 }
