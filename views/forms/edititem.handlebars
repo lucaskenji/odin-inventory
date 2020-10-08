@@ -17,7 +17,7 @@
 	<label for="category">Category</label>
 	<select name="category">
 		{{#each categories}}
-			<option value={{this._id}} {{#ifCond this._id ../item.category._id}}selected{{/ifCond}}>
+			<option value={{this._id}} {{#ifCond this._id ../item.category}}selected{{/ifCond}}>
 				{{this.name}}
 			</option>
 		{{/each}}
@@ -39,6 +39,9 @@
 	<label for="photo">Item image(leave empty to remain unchanged)</label>
 	<input type="file" name="photo" value="/uploads/{{item.photo}}">
 	<br>
+	
+	<label for="admin_pwd">Insert your password to continue:</label>
+	<input type="password" name="admin_pwd">
 	
 	<input type="submit" value="Add">
 </form>

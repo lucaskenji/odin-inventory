@@ -86,7 +86,7 @@ const addNewItem = (req, res) => {
 }
 
 const getUpdateForm = (req, res) => {
-	Item.findOne({ url: req.params.url }).lean().populate('category').then((result) => {
+	Item.findOne({ url: req.params.url }).lean().then((result) => {
 		if (result) {
 			Category.find().lean().then((categories) => {
 				if (categories) {
@@ -114,6 +114,12 @@ const editItem = (req, res) => {
 			if (!errors.isEmpty()) {
 				errors = errors.array().map(error => error.msg);
 				return res.render('forms/edititem', { errors, categories, item: currentItem });
+			}
+			
+			const adminPassword = process.env.ADMIN_PASSWORD || 'admin';
+			
+			if (req.body.admin_pwd !== adminPassword) {
+				return res.render('forms/edititem', { errors: ['Incorrect password.'], categories, item: currentItem });
 			}
 			
 			Item.findOne({ url: req.body.url }).lean()
@@ -159,6 +165,12 @@ const getDeletePrompt = (req, res) => {
 }
 
 const deleteItem = (req, res) => {
+	const adminPassword = process.env.ADMIN_PASSWORD || 'admin';
+	
+	if (req.body.admin_pwd !== adminPassword) {
+		return res.render('forms/deleteitem', { errors: ['Incorrect password.'] });
+	}
+	
 	Item.findOneAndDelete({url: req.params.url}).then((result) => {
 		if (!result) {
 			return res.render('notfound');

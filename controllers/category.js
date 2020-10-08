@@ -107,6 +107,12 @@ const editCategory = (req, res) => {
 			return res.render('forms/editcategory', { errors, category: currentCategory });
 		}
 		
+		const adminPassword = process.env.ADMIN_PASSWORD || 'admin';
+		
+		if (req.body.admin_pwd !== adminPassword) {
+			return res.render('forms/editcategory', { errors: ['Incorrect password.'], category: currentCategory });
+		}		
+		
 		Category.findOne({ url: req.body.url }).lean()
 		.then((result) => {
 			if (result && result.url !== req.params.url) {
@@ -141,6 +147,12 @@ const getDeletePrompt = (req, res) => {
 }
 
 const deleteCategory = (req, res) => {
+	const adminPassword = process.env.ADMIN_PASSWORD || 'admin';
+	
+	if (req.body.admin_pwd !== adminPassword) {
+		return res.render('forms/deletecategory', { errors: ['Incorrect password.'] });
+	}
+	
 	Category.findOneAndDelete({url: req.params.url}).then((result, ok) => {
 		if (!result) {
 			return res.render('notfound');

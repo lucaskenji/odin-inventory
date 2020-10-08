@@ -1,3 +1,11 @@
+{{#each errors}}
+	<div class="error-msg">
+		{{this}}
+	</div>
+{{/each}}
+
 <form method="POST">
+	<label for="admin_pwd">Insert your password to continue:</label>
+	<input type="password" name="admin_pwd"><br>
 	<input type="submit" value="Delete category">
 </form>
