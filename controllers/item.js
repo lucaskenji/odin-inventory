@@ -75,7 +75,7 @@ const addNewItem = (req, res) => {
 					throw err;
 				}
 				
-				return res.redirect('/');
+				return res.redirect('/item/' + req.body.url);
 			})
 		})
 		.catch((err) => {
@@ -143,7 +143,7 @@ const editItem = (req, res) => {
 				
 				Item.updateOne({ url: req.params.url }, updatedItem)
 				.then(() => {
-					return res.redirect('/');
+					return res.redirect('/item/' + req.body.url);
 				});
 			});
 		});
@@ -176,19 +176,27 @@ const deleteItem = (req, res) => {
 			return res.render('notfound');
 		}
 		
+		const categoryId = result.category;
+		
 		if (result.photo !== 'default.png') {
 			fs.unlink(path.join('public/uploads/', result.photo), (err) => {
 				if (err) {
-					throw err;
+					res.status(500).send('Internal server error');
 				}
-				return res.redirect('/');
+				
+				Category.findById(categoryId)
+				.then((category) => {
+					return res.redirect('/category/' + category.url);
+				});
 			});
 		} else {
-			return res.redirect('/');
+			Category.findById(categoryId)
+			.then((category) => {
+				return res.redirect('/category/' + category.url);
+			});
 		}
 	})
 	.catch((err) => {
-		console.log(err);
 		res.status(500).send('Internal server error');
 	});
 }

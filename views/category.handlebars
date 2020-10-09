@@ -1,8 +1,27 @@
-<h1>{{category.name}}</h1>
-
-<div>
-	{{#each items}}
-		<h2>{{this.name}}</h2>
-		<h5>{{this.description}}</h5>
-	{{/each}}
+<div class="card">
+	<div class="card-body">
+		<a class="btn btn-secondary" href="/category/edit/{{category.url}}">Edit</a>
+		<a class="btn btn-danger" href="/category/delete/{{category.url}}">Delete</a>
+		
+		<h1 class="card-title mb-4">{{category.name}}</h1>
+		
+		<div class="items-container">
+		{{#each items}}
+			<div class="card mr-4 item-container">
+				<img class="card-img-top" alt="{{this.name}}" src="/uploads/{{this.photo}}">
+				<div class="card-body">
+					<h4 class="card-title">{{this.name}}</h4>
+					<h5 class="card-subtitle text-muted">on stock: {{this.stock}}</h5>
+					{{this.description}}
+				</div>
+				<a href="/item/{{this.url}}" class="btn btn-primary">Details</a>
+			</div>
+		{{else}}
+			Nothing to see here... yet.
+		{{/each}}
+		</div>
+		
+		<a class="btn btn-primary mt-4" href="/item/new">Add item</a>
+		<a class="btn btn-secondary mt-4" href="/category">Back</a>
+	</div>
 </div>

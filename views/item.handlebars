@@ -1,8 +1,27 @@
-<div>
-	<small>on {{ item.category.name }}</small>
-	<h1>{{ item.name }}</h1>
-	{{ item.description }}<br>
-	{{ item.price }}<br>
-	{{ item.stock }}<br>
-	<img class="item-photo" src="/uploads/{{ item.photo }}">
+<div class="card">
+	<div class="card-body">
+	
+		<small>on {{ item.category.name }}</small>
+		<h1>{{ item.name }}</h1>
+		
+		<div class="card-details">
+			<div>
+				<img class="item-photo" src="/uploads/{{ item.photo }}">
+			</div>
+			<div class="card-description ml-4">
+				<strong>Description:</strong><br>
+				{{ item.description }}<br><br>
+				
+				<strong>Price:</strong><br>
+				${{ item.price }}<br><br>
+				
+				<strong>Stock:</strong><br>
+				{{ item.stock }}<br><br>
+				
+				<a class="btn btn-secondary" href="/item/edit/{{ item.url }}">Edit item</a>
+				<a class="btn btn-danger" href="/item/delete/{{ item.url }}">Delete item</a>
+			</div>
+		</div>
+		
+	</div>
 </div>

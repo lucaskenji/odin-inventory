@@ -1,7 +1,13 @@
-<div>
-
-{{#each categories}}
-	<a href="category/{{this.url}}">{{this.name}}</a><br>
-{{/each}}
-
+<div class="card">
+	<div class="card-body">
+		<h1 class="card-title">All categories</h1>
+		{{#each categories}}
+			<a href="/category/{{this.url}}">{{this.name}}</a><br>
+		{{else}}
+			Nothing to see here... yet.
+		{{/each}}
+		
+		<br>
+		<a class="btn btn-primary mt-4" href="/category/new">Add category</a>
+	</div>
 <div>

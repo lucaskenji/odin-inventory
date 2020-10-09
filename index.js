@@ -47,6 +47,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/category', categoriesRouter);
 app.use('/item', itemsRouter);
 
+app.get('/', (req, res) => {
+	res.redirect('/category');
+});
+
 
 // Start server
 app.listen(PORT, () => {

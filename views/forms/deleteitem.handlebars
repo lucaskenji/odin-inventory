@@ -1,11 +1,11 @@
 {{#each errors}}
-	<div class="error-msg">
+	<div class="alert alert-danger">
 		{{this}}
 	</div>
 {{/each}}
 
 <form method="POST">
 	<label for="admin_pwd">Insert your password to continue:</label>
-	<input type="password" name="admin_pwd"><br>
+	<input class="form-control" type="password" name="admin_pwd"><br>
 	<input type="submit" value="Delete item">
 </form>

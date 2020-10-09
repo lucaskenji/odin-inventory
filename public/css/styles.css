@@ -1,0 +1,31 @@
+.error-msg {
+	background-color: #fbd;
+	border: 1px solid red;
+	border-radius: 5px;
+	color: red;
+	margin-bottom: 5px;
+}
+
+.item-photo {
+	width: 350px;
+	height: 350px;
+}
+
+.items-container {
+	display: grid;
+	grid-template-columns: 33% 33% 33%;
+	width: 100%;
+}
+
+.item-container {
+	background-color: red;
+}
+
+.card-details {
+	display: flex;
+	flex-direction: row;
+}
+
+.card-description {
+	font-size: 18px;
+}
