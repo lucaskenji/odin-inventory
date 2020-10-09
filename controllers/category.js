@@ -72,7 +72,7 @@ const addNewCategory = (req, res) => {
 		
 		newCategory.save((err) => {
 			if (err) {
-				throw err;
+				return res.status(500).send("Internal server error");
 			}
 			
 			return res.redirect('/');
@@ -160,7 +160,7 @@ const deleteCategory = (req, res) => {
 		
 		Item.deleteMany({category: result._id}).then((deleteResults) => {
 			if (!deleteResults.ok) {
-				throw new Error('');
+				return res.status(500).send("Internal server error");
 			}
 			
 			return res.redirect('/');

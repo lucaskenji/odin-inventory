@@ -72,7 +72,7 @@ const addNewItem = (req, res) => {
 			
 			newItem.save((err) => {
 				if (err) {
-					throw err;
+					return res.status(500).send("Internal server error");
 				}
 				
 				return res.redirect('/item/' + req.body.url);
@@ -92,7 +92,7 @@ const getUpdateForm = (req, res) => {
 				if (categories) {
 					return res.render('forms/edititem', { item: result, categories });
 				}
-				throw new Error('internal server error');
+				return res.status(500).send("Internal server error");
 			});
 		} else {
 			return res.render('notfound');
