@@ -39,5 +39,15 @@ set ADMIN_PASSWORD=examplepassword
 
 6. Run `npm start`.
 
+## Screenshots
+
+![category display](https://github.com/lucaskenji/odin-inventory/blob/master/screenshots/print001.png)
+
+![product list](https://github.com/lucaskenji/odin-inventory/blob/master/screenshots/print002.png)
+
+![form for adding new item](https://github.com/lucaskenji/odin-inventory/blob/master/screenshots/print003.png)
+
 ## Acknowledgements
 * The Odin Project
+* Bootstrap
+* Multer
